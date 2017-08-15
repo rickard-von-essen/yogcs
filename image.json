@@ -1,0 +1,42 @@
+{
+  "variables": {
+    "gce-project": ""
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "debian:8.9",
+      "pull": false,
+      "discard": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get update && apt-get -y install sudo"
+      ],
+      "only": [ "docker" ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/install_packages.sh",
+        "scripts/install_dotnet.sh",
+        "scripts/install_credentials.sh",
+        "scripts/install_devshell.sh",
+        "scripts/install_go_appengine.sh",
+        "scripts/install_google-cloud-sdk.sh",
+        "scripts/install_gopath.sh",
+        "scripts/install_orion.sh",
+        "scripts/install_scripts.sh",
+        "scripts/customize.sh"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "root/",
+      "destination": "/"
+    }
+  ]
+}
